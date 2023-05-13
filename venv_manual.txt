@@ -18,7 +18,7 @@ this is a simple personal manual how to manage and work with couple python envir
 7. install the packages you need with pip (pip3 for mac)
 8. deactivate the venv with this command
 ```deactivate
-``
+```
 9. repeat step 5-8 for every venv you need
 10. if you want to delete a venv just delete the folder of the venv
 11. if you want to delete a python version just delete the folder of the version in the pyenv folder
