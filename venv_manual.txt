@@ -14,6 +14,8 @@ this is a simple personal manual how to manage and work with couple python envir
 ```
 6. activate the venv with this command
 ```source <name of the venv>/bin/activate
+6.1 adding the venv to the vscode kernel
+```python3 -m ipykernel install --user --name=<name of the venv>
 ```
 7. install the packages you need with pip (pip3 for mac)
 8. deactivate the venv with this command
