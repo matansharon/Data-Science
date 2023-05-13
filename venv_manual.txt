@@ -1,0 +1,25 @@
+this is a simple personal manual how to manage and work with couple python environments on your local machine.
+1. install homebrew
+1.1 if you dont have it already paste this in your terminal
+```/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+```
+
+2. install pyenv
+3. install the python version you need
+4. make the python version global for your machine with this command
+```pyenv global <the version you want>
+```
+5. create the venv you want with this command
+```python3 -m venv <name of the venv>
+```
+6. activate the venv with this command
+```source <name of the venv>/bin/activate
+```
+7. install the packages you need with pip (pip3 for mac)
+8. deactivate the venv with this command
+```deactivate
+```
+9. repeat step 5-8 for every venv you need
+10. if you want to delete a venv just delete the folder of the venv
+11. if you want to delete a python version just delete the folder of the version in the pyenv folder
+12. if you want to delete pyenv just delete the pyenv folder
