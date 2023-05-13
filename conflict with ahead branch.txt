@@ -1,0 +1,13 @@
+this is a presonal manual for me to use when i need to remember how to do something in the terminal or in git
+when im forgetting to pull from the remote repo. and i get an error message saying that i need to pull first.
+i can use this manual to remember how to do it.
+
+1. first i need to check if i have any changes that i need to commit.
+2. then i need to commit the changes.
+3. git fetch origin
+3.1 if origin is not defined i need to add it with the command: git remote add origin <url>
+4. git merge origin/main
+5. git add conflicted_file
+git commit -m "Resolve merge conflict"
+6. git push origin main
+
