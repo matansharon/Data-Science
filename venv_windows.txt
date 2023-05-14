@@ -1,0 +1,9 @@
+before everything, you need to to deactivate conda with the command: "conda deactivate"
+1. dowload and install the python version i need.
+2. go to system environment variables and add the path to the python version you just installed.
+3. move up the version you just installed to the top of the list.
+4. open a new cmd and type "python" to check if the version is correct.
+5. create a new venv with the command: "python -m venv myvenv"
+6. activate the venv with the command: "myvenv\Scripts\activate"
+7. add the venv to the jupyter notebook by add the path of the venv that ends with the python.exe to the kernel.json file.
+8. install all the require packages 
