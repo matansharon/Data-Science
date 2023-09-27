@@ -1,4 +1,4 @@
-csv
+
 nba.sqlite
 nba2.sqlite
 Notebooks
@@ -9,3 +9,4 @@ temp.csv
 apikeys.txt
 df_end_S2.csv
 datasets/
+models/
