@@ -10,3 +10,4 @@ apikeys.txt
 df_end_S2.csv
 datasets/
 models/
+.venv/
