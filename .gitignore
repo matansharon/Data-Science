@@ -13,3 +13,4 @@ models/
 .venv/
 activities 4/
 pytorch/pytorch docs/data/FashionMNIST/raw/
+.venv_pytorch/
