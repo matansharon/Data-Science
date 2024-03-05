@@ -3,7 +3,14 @@ from streamlit_extras.add_vertical_space import add_vertical_space
 import pandas as pd
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
-from helper_function import get_all_files_in_directory, read_data_file
+from helper_function import get_all_files_in_directory, read_data_file,extract_text_from_pdf
+from io import StringIO
+import PyPDF2
+
+
+
+
+
 #sidebar
 with st.sidebar:
     st.title('Chatbot')
@@ -26,9 +33,20 @@ def main():
     
     
     file=st.file_uploader('Upload a file', type=['pdf','xlsx','csv'])
+    
     if file:
-        st.write('PDF file uploaded')
-        st.write(file.type)
+        if file.name.endswith('.pdf'):
+            pdf_reader=PyPDF2.PdfReader(file)
+            text=''
+            for page in pdf_reader.pages:
+                text+=page.extract_text()
+            st.write(text)
+        
+    
+        
+    res=st.chat_input('Ask me anything')
+    if res:
+        st.write(res)
        
 
 
