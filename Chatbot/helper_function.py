@@ -1,17 +1,21 @@
 import os
 import pandas as pd
 import PyPDF2
-def get_all_files_in_directory(directory:str):
-    
+
+def read_data_files(directory:str):
     files=os.listdir(directory)
-    return files
-def read_data_file(file_path:str):
-    if file_path.endswith('.csv'):
-        data_frame=pd.read_csv(file_path)
-    elif file_path.endswith('.xlsx'):
-        data_frame=pd.read_excel(file_path)
-    return data_frame
-    return data_frame
+    
+    data_files=[]
+    for file in files:
+        if file.endswith('.csv'):
+            data_files.append(pd.read_csv(f'data/{file}'))
+        elif file.endswith('.xlsx'):
+            data_files.append(pd.read_excel(f'data/{file}'))
+        # elif file.endswith('.pdf'):
+        #     data_files.append(extract_text_from_pdf(f'data/{file}'))
+    return data_files
+    
+    
 def extract_text_from_pdf(file_path:str):
     # pdf_file=open(file_path,'r')
     pdf_reader=PyPDF2.PdfReader(file_path)

@@ -3,14 +3,13 @@ from streamlit_extras.add_vertical_space import add_vertical_space
 import pandas as pd
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 import os
-from helper_function import get_all_files_in_directory, read_data_file,extract_text_from_pdf
+from helper_function import  read_data_files,extract_text_from_pdf
 from io import StringIO
 import PyPDF2
-
-
-
-
-
+from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.vectorstores import FAISS
+import pickle
+from dotenv import load_dotenv
 #sidebar
 with st.sidebar:
     st.title('Chatbot')
@@ -23,14 +22,19 @@ with st.sidebar:
                 """)
     add_vertical_space(10)
     st.write('Made By Matan Sharon')
-    
+
 def main():
+    load_dotenv()
     st.header('Chatbot')
     
     st.write('### Hello, I am a chatbot. How can I help you today?')
-    files=get_all_files_in_directory('data')
-    st.write(f"files in the data directory are: {files}")
+
     
+    # files=read_data_files('data')
+    # if files:
+    #     st.write('### Data files')
+    #     for file in files:
+    #         st.write(str(file),'\n\n\n')
     
     file=st.file_uploader('Upload a file', type=['pdf','xlsx','csv'])
     
@@ -40,7 +44,22 @@ def main():
             text=''
             for page in pdf_reader.pages:
                 text+=page.extract_text()
-            st.write(text)
+            text_splitter=RecursiveCharacterTextSplitter(
+                chunk_size=1000,
+                chunk_overlap=200,
+                length_function=len
+            )
+            chunks=text_splitter.split_text(text)
+            
+            #embeddings
+            embedding=OpenAIEmbeddings()
+            vector_store = FAISS.from_texts(chunks, embedding=embedding)
+            store_name=file.name[:-4]
+            with open(f'{store_name}.pkl','wb') as f:
+                pickle.dump(vector_store,f)
+            
+            st.write(chunks[:5])
+            
         
     
         
