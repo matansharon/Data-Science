@@ -10,6 +10,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import FAISS
 import pickle
 from dotenv import load_dotenv
+from joblib import dump, load
 #sidebar
 with st.sidebar:
     st.title('Chatbot')
@@ -45,20 +46,28 @@ def main():
             for page in pdf_reader.pages:
                 text+=page.extract_text()
             text_splitter=RecursiveCharacterTextSplitter(
-                chunk_size=1000,
-                chunk_overlap=200,
+                chunk_size=500,
+                chunk_overlap=100,
                 length_function=len
             )
             chunks=text_splitter.split_text(text)
             
             #embeddings
-            embedding=OpenAIEmbeddings()
-            vector_store = FAISS.from_texts(chunks, embedding=embedding)
+
             store_name=file.name[:-4]
-            with open(f'{store_name}.pkl','wb') as f:
-                pickle.dump(vector_store,f)
+            st.write(store_name)
+            if os.path.exists(f'{store_name}.pkl'):
+                st.write('Loading from store')
+                with open(f'{store_name}.pkl','rb') as f:
+                    vector_store = load(f'{store_name}.joblib')
+            else:
+                st.write('Creating store')
+                embedding=OpenAIEmbeddings()
+                vector_store = FAISS.from_texts(chunks, embedding=embedding)
+                with open(f'{store_name}.pkl','wb') as f:
+                    dump(vector_store, f'{store_name}.joblib')
             
-            st.write(chunks[:5])
+            # st.write(chunks[:5])
             
         
     
