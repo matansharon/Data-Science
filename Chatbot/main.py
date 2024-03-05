@@ -30,7 +30,13 @@ def main():
             splits=RecursiveCharacterTextSplitter(chunk_size=1000,chunk_overlap=200)
             docs=splits.split_documents(df_as_string)
             st.write(f"splits is: {docs}")
-            
+def read_data_file(file_path:str,data_frame:pd.DataFrame):
+    if file_path.endswith('.csv'):
+        data_frame=pd.read_csv(file_path)
+    elif file_path.endswith('.xlsx'):
+        data_frame=pd.read_excel(file_path)
+    
+    return data_frame
 
 if __name__ == '__main__':
     main()
