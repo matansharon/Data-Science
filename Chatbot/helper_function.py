@@ -1,26 +1,38 @@
+from langchain_community.document_loaders import TextLoader
+from langchain_community.embeddings.sentence_transformer import (
+    SentenceTransformerEmbeddings,
+)
+from langchain_community.vectorstores import Chroma
+from langchain_text_splitters import CharacterTextSplitter
+from langchain_openai.chat_models import ChatOpenAI
+from langchain.chains import LLMChain
+from langchain.prompts import PromptTemplate
 import os
-import pandas as pd
-import PyPDF2
+def load_and_split_docs():
 
-def read_data_files(directory:str):
-    files=os.listdir(directory)
-    
-    data_files=[]
-    for file in files:
-        if file.endswith('.csv'):
-            data_files.append(pd.read_csv(f'data/{file}'))
-        elif file.endswith('.xlsx'):
-            data_files.append(pd.read_excel(f'data/{file}'))
-        # elif file.endswith('.pdf'):
-        #     data_files.append(extract_text_from_pdf(f'data/{file}'))
-    return data_files
-    
-    
-def extract_text_from_pdf(file_path:str):
-    # pdf_file=open(file_path,'r')
-    pdf_reader=PyPDF2.PdfReader(file_path)
-    text=''
-    for page in pdf_reader.pages:
-        text+=page.extract_text()
-    return text
+# load the document and split it into chunks
+    docs=os.list_dir('/Users/matansharon/python/Data_science/Chatbot/data')
+    loader = TextLoader(docs)
+    documents = loader.load()
 
+# split it into chunks
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    docs = text_splitter.split_documents(documents)
+def run__openSource_embedding(docs):
+# create the open-source embedding function
+    embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+    docs=docs
+# load it into Chroma
+    db = Chroma.from_documents(docs, embedding_function)
+    return db
+def create_llm_chain(llm_name):
+    llm=ChatOpenAI(model="gpt-3.5-turbo")
+    template = """
+        you are a helpful assitant,
+        Question: {question}
+
+        Answer: Let's think step by step."""
+
+    prompt = PromptTemplate.from_template(template)
+    llm_chain = LLMChain(prompt=prompt, llm=llm)
+    return llm_chain

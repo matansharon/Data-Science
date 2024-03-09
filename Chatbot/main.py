@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from langchain_community.document_loaders import TextLoader,PyPDFLoader
 from langchain_openai import OpenAIEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
-from langchain_community.vectorstores import FAISS
+from langchain_community.vectorstores import Chroma
 
 import getpass
 #sidebar
@@ -40,7 +40,7 @@ def main():
     #     for file in files:
     #         st.write(str(file),'\n\n\n')
     
-    file=st.file_uploader('Upload a file', type=['pdf','xlsx','csv'])
+    file=st.file_uploader('Upload a file', type=['pdf'])
     
     if file:
         # if file.name.endswith('.pdf'):
@@ -51,10 +51,11 @@ def main():
             text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
             documents = text_splitter.split_text(text)
             
-            db = FAISS.from_text(documents, OpenAIEmbeddings())
-            query = "What is QLoRA, and how does it contribute to finetuning large language models?"
-            docs = db.similarity_search(query)
-            st.write(docs)
+            vectorstore = Chroma('langchain_store', OpenAIEmbeddings())
+            query = "Summerize the document"
+            vectorstore.add_texts(text)
+            st.write(vectorstore.similarity_search(query="Summerize the document"))
+            # st.write(docs)
             # print(docs[0].page_content) 
     #         text_splitter=RecursiveCharacterTextSplitter(
     #             chunk_size=500,
