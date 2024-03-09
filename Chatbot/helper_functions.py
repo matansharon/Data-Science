@@ -8,6 +8,10 @@ from langchain_openai.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 import os
+
+
+def get_all_files_in_directory(directory: str):
+    return [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))]
 def load_and_split_docs():
     
 
