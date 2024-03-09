@@ -1,4 +1,4 @@
-from langchain_community.document_loaders import TextLoader
+from langchain_community.document_loaders import TextLoader,DirectoryLoader
 from langchain_community.embeddings.sentence_transformer import (
     SentenceTransformerEmbeddings,
 )
@@ -9,15 +9,19 @@ from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 import os
 def load_and_split_docs():
+    
 
 # load the document and split it into chunks
-    docs=os.list_dir('/Users/matansharon/python/Data_science/Chatbot/data')
-    loader = TextLoader(docs)
+    loader=DirectoryLoader('/Users/matansharon/python/Data_science/Chatbot/data')
     documents = loader.load()
-
-# split it into chunks
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
     docs = text_splitter.split_documents(documents)
+    return docs
+# load the document and split it into chunks
+    
+
+# split it into chunks
+    
 def run__openSource_embedding(docs):
 # create the open-source embedding function
     embedding_function = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
@@ -25,7 +29,7 @@ def run__openSource_embedding(docs):
 # load it into Chroma
     db = Chroma.from_documents(docs, embedding_function)
     return db
-def create_llm_chain(llm_name):
+def create_llm_chain(llm_name:str='gpt-3.5-turbo',temperture: float=0):
     llm=ChatOpenAI(model="gpt-3.5-turbo")
     template = """
         you are a helpful assitant,
@@ -36,3 +40,8 @@ def create_llm_chain(llm_name):
     prompt = PromptTemplate.from_template(template)
     llm_chain = LLMChain(prompt=prompt, llm=llm)
     return llm_chain
+def run():
+    docs=load_and_split_docs()
+    db=run__openSource_embedding(docs)
+    llm_chain=create_llm_chain('gpt-3.5-turbo')
+    return llm_chain,db

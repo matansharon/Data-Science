@@ -1,18 +1,9 @@
 import streamlit as st
 from streamlit_extras.add_vertical_space import add_vertical_space
-import pandas as pd
-import os
-import helper_functions
-from io import StringIO
-import PyPDF2
-import pickle
+import helper_functions as hf
 from dotenv import load_dotenv
-from langchain_community.document_loaders import TextLoader,PyPDFLoader
-from langchain_openai import OpenAIEmbeddings
-from langchain_text_splitters import CharacterTextSplitter
-from langchain_community.vectorstores import Chroma
 
-import getpass
+
 #sidebar
 with st.sidebar:
     st.title('Chatbot')
@@ -34,7 +25,7 @@ def main():
     st.write('### Hello, I am a chatbot. How can I help you today?')
     
     
-    # file=st.file_uploader('Upload a file', type=['pdf'])
+    
     
 
 
