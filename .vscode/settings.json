@@ -1,3 +1,8 @@
-{
-    "python.analysis.typeCheckingMode": "off"
+{"file.exclude" : {
+        "**/.git": true,
+        "**/.DS_Store": true,
+        "**/*.pyc": true,
+        "**/__pycache__": true,
+        
+    }
 }
